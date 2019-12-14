@@ -11,3 +11,15 @@
     import 'relative/path/to/stylesheet.scss';
 
 */
+h1{
+    text-align: center;
+}
+
+.todoList{
+    margin: 50px auto;
+    width:600px;
+}
+
+.hide{
+    visibility: hidden;
+}
