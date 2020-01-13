@@ -9,7 +9,7 @@ import "bootstrap";
 import "../styles/index.scss";
 
 //import your own components
-import { Home } from "./component/todolistFetch";
+import { Home } from "./component/todoListFetch";
 
 //render your react application
 ReactDOM.render(

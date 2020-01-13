@@ -1,17 +1,13 @@
-import React from "react";
+import React, { Component } from "react";
+import { TasksList } from "./tasksList";
 
-export class Home extends React.Component {
+export class Home extends Component {
 	constructor() {
 		super();
 		this.state = {
-			message: [
-				"Cras justo odio",
-				"Dapibus ac facilisis in",
-				"Morbi leo risus",
-				"Porta ac consectetur ac",
-				"Vestibulum at eros"
-			]
+			message: []
 		};
+		this.deleteTask = this.deleteTask.bind(this); //IMPORTANTE CUANDO SE PASA LA FUNCION POR PROPS
 	}
 
 	addTask(e) {
@@ -28,30 +24,19 @@ export class Home extends React.Component {
 				message: this.state.message
 			});
 			e.target.value = "";
-			this.putToDos(this.state.message);
+			//this.putToDos(this.state.message);
 		}
 	}
 
 	deleteTask(i) {
-		//console.log(i);
 		const mess = this.state.message.slice();
 		mess.splice(i, 1);
 		this.setState({ message: mess });
 		this.putToDos(this.state.message);
 	}
 
-	showDelete(i) {
-		let icon = document.querySelector("#item" + i);
-		icon.classList.remove("hide");
-	}
-
-	hideDelete(i) {
-		let icon = document.querySelector("#item" + i);
-		icon.classList.add("hide");
-	}
-
 	getToDos() {
-		fetch("http://jsonplaceholder.typicode.com/todos")
+		fetch("https://jsonplaceholder.typicode.com/todos/")
 			.then(response => response.json())
 			.then(json => this.setState({ message: json }));
 	}
@@ -101,25 +86,10 @@ export class Home extends React.Component {
 							onKeyDown={e => this.addTask(e)}
 						/>
 					</div>
-					<ul className="list-group">
-						{this.state.message.length > 0 &&
-							this.state.message.map((item, i) => {
-								return (
-									<li
-										key={i}
-										className="list-group-item"
-										onMouseOver={() => this.showDelete(i)}
-										onMouseOut={() => this.hideDelete(i)}>
-										{item.title}{" "}
-										<i
-											id={"item" + i}
-											className="fa fa-trash float-right hide"
-											onClick={() => this.deleteTask(i)}
-										/>
-									</li>
-								);
-							})}
-					</ul>
+					<TasksList
+						tasks={this.state.message}
+						delete={this.deleteTask}
+					/>
 					<p className="card-text">
 						{this.state.message.length > 0
 							? this.state.message.length + " messages left."
